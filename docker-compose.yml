@@ -1,0 +1,92 @@
+{
+  "version": "3.1",
+  "volumes": {
+    "postgres_data": { },
+    "nginx_data": { },
+    "rabbitmq_data": { }
+  },
+  "services": {
+    "postgres": {
+      "image": "postgres",
+      "env_file": "gateway_tts/.env",
+      "ports": [
+          "${POSTGRES_PORT}"
+      ],
+    },
+    "gateway": {
+      "build": {
+        "context": "./gateway_tts",
+        "dockerfile": "Dockerfile"
+      },
+      "ports": [
+          "8060:8060"
+      ],
+      "env_file": "gateway_tts/.env",
+      "depends_on": [
+          "postgres",
+          "rabbit"
+      ]
+    },
+    "rabbit": {
+      "image": "rabbitmq:management",
+      "hostname": "${RABBIT_HOST}",
+      "ports": [
+          "${RABBIT_PORT}:${RABBIT_PORT}",
+          "${RABBIT_PORT2}:${RABBIT_PORT2}"
+      ],
+      "volumes": [
+          "rabbitmq_data:/var/lib/rabbitmq/data/"
+      ],
+      "healthcheck": {
+        "test": "rabbitmq-diagnostics -q ping",
+        "interval": "5s",
+        "timeout": "15s",
+        "retries": "5"
+      }
+    },
+    "consumer": {
+      "build": {
+        "context": "./consumer",
+        "dockerfile": "Dockerfile"
+      },
+      "env_file": "./consumer/.env",
+      "restart": "always",
+      "ports": [
+          "${BROKER_PORT_EXT}:${BROKER_PORT_INT}"
+      ],
+      "links": [
+          "rabbit"
+      ],
+      "depends_on": [
+          "rabbit"
+      ],
+      "healthcheck": {
+        "test": "curl -sS http://${RABBIT_HOST}:${RABBIT_PORT2} || exit 1",
+        "interval": "5s",
+        "timeout": "15s",
+        "retries": "5"
+      }
+    },
+    "tts": {
+      "build": {
+        "context": "./pythonProject",
+        "dockerfile": "Dockerfile"
+      },
+      "env_file": "pythonProject/.env",
+      "restart": "always",
+      "ports": [
+          "${TTS_PORT_EXT}:${TTS_PORT_INT}"
+      ]
+    },
+    "frontend": {
+      "build": {
+        "context": "./frontend",
+        "dockerfile": "Dockerfile"
+      },
+      "restart": "always",
+      "ports": [
+          "8080:80"
+      ]
+    }
+  }
+}

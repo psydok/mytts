@@ -1,0 +1,9 @@
+path: 'tts/audio/backend/data/'
+
+synthesizers:
+  forward_tacotron: 'forward_step90K.pyt'
+  fast_speech2: 'fastspeech2_72k_steps.pyt'
+  silero: ''
+
+
+vocoders: [ 'griffinlim', 'hifigan' ]

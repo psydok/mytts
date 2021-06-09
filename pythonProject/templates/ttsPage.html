@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Синтез речи{% endblock %}
+
+{% block head %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div>
+    <h1 style="margin: 24px;">
+        Синтез речи
+    </h1>
+    <div style="margin: 24px;">
+        <select id="model-select-id">
+            {% for model in existing_models %}
+            <option value="{{ model }}">{{ model }}</option>
+            {% endfor %}
+        </select>
+
+        <input id="text-input" placeholder='Введите текст' style="font-size: 1em;"/>
+        <button onclick="send_form()">Синтезировать</button>
+    </div>
+    <div style="margin: 24px;">
+        <table id="table_result">
+            <thead>
+            <tr>
+                <th class="model_audio">Аудио</th>
+                <th class="model_time">Скорость</th>
+            </tr>
+            </thead>
+            <tbody id="table_body_result">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

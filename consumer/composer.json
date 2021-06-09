@@ -1,0 +1,9 @@
+{
+  "require": {
+    "php-amqplib/php-amqplib": "^3.0",
+    "phpseclib/bcmath_compat": "^1.0",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-curl": "*"
+  }
+}
