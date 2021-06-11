@@ -127,7 +127,7 @@ class SynthenizerFastSpeech:
             para_mel.append(m)
 
         m = torch.cat(para_mel, dim=1)
-        return m
+        return m.cpu().numpy()
         # now = datetime.now()
         # creation_date = now.strftime("%Y%m%d_%H-%M-%S")
         # if voc_model == "":

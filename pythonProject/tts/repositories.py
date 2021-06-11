@@ -30,7 +30,7 @@ class Repository(ABC):
         if voc_model == 'hifigan':
             wav = vocoder(mel, wav_name)
         else:
-            wav = dsp.griffinlim(mel.cpu().numpy(), 30)
+            wav = dsp.griffinlim(mel, 30)
             dsp.save_wav(wav, out_path / f'{wav_name}', sample_rate=sample_rate)
         return wav_name
 
@@ -65,11 +65,22 @@ class FastSpeech2Repository(Repository):
 
 
 class SileroRepository(Repository):
+    """
+    Пример входного текста для генерации такой же как у SovaTTS:
+    д+обрый в+ечер! ч+ем мог+у пом+очь?
+    """
 
     @property
     def name_model(self):
         return 'silero'
 
     def generate(self, text: str, voc_model: str):
-        wav_name = generator(text)
+        text_new_accent = ""
+        for ch in text:
+            if ch == "+":
+                text_new_accent = text_new_accent[:-1] + "+" + text_new_accent[-1:]
+                continue
+            text_new_accent += ch
+        print(text_new_accent)
+        wav_name = generator(text_new_accent)
         return wav_name

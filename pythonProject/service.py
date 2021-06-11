@@ -40,12 +40,12 @@ class SpeechSynthesisService(object):
         print(norm_text)
         len_text = 0
         start = time.time()
-        if norm_text:
+        if norm_text != "":
             len_text = len(norm_text)
             wav_name = self._repository.generate(norm_text, vocoder)
         else:
-            len_text = len(processed_text.text)
-            wav_name = self._repository.generate(processed_text.text, vocoder)
+            len_text = len(text)
+            wav_name = self._repository.generate(text, vocoder)
         end = time.time()
         return {
             "wav_name": wav_name,

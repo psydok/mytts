@@ -47,7 +47,7 @@ def synthesize():
     try:
         response_service = service.generate(text, vocoder=vocoder_type)
     except Exception as e:
-        return answer(-1, '', -1, -1, 503, message="Fail: {0}".format(e))
+        return answer(-1, '', -1, -1, 500, message="Fail: {0}".format(e))
     print(model_type)
     return answer(read_bytes(response_service['wav_name']),
                   response_service['wav_name'],
