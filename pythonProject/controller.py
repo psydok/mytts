@@ -35,8 +35,9 @@ def synthesize():
     request_json = request.get_json()
     text = request_json["text"]
     model_type = request_json["model_name"]
+    vocoder_type = request_json["vocoder_name"]
     if text == '':
-        return answer('', -1, -1, 400, "Fail: Bad request. Enter text.")
+        return answer('', -1, -1, -1, 422, message="Fail: Bad request. Enter text.")
     if model_type == 'demo-sovaTTS':
         return answer(read_bytes('test_ruslan.wav'), 'test_ruslan.wav', 0, 0, 200)
     try:
@@ -44,9 +45,9 @@ def synthesize():
     except ValueError as e:
         service = SpeechSynthesisService('forward_tacotron')
     try:
-        response_service = service.generate(text)
+        response_service = service.generate(text, vocoder=vocoder_type)
     except Exception as e:
-        return answer(-1, '', -1, -1, 500, "Fail: {0}".format(e))
+        return answer(-1, '', -1, -1, 503, message="Fail: {0}".format(e))
     print(model_type)
     return answer(read_bytes(response_service['wav_name']),
                   response_service['wav_name'],

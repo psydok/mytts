@@ -30,6 +30,8 @@ class SpeechSynthesisService(object):
         self._repository = self._check_exists_repository(repository)
 
     def generate(self, text, vocoder='griffinlim') -> Dict[str, str]:
+        if vocoder == "":
+            vocoder = 'griffinlim'
         use_accent = True
         if '+' in text:
             use_accent = False

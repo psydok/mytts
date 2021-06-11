@@ -1,5 +1,3 @@
-from datetime import datetime
-from utils.files import out_path
 import torch
 from .fastspeech import FeedForwardTransformer
 from .utils.texts import phonemes_to_sequence
@@ -8,7 +6,6 @@ from .utils.texts import valid_symbols
 from .utils.hparams import load_hparam_str, HParam
 from .utils.texts.cleaners import basic_cleaners, punctuation_removers
 from tts.audio.backend.dsp import DSP
-from tts.audio.backend.hifigan.inference_e2e import main as voc
 from queue import Queue
 from russian_g2p.Transcription import Transcription
 

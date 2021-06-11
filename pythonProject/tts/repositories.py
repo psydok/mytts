@@ -32,7 +32,7 @@ class Repository(ABC):
         else:
             wav = dsp.griffinlim(mel.cpu().numpy(), 30)
             dsp.save_wav(wav, out_path / f'{wav_name}', sample_rate=sample_rate)
-        return wav_name, wav
+        return wav_name
 
 
 class ForwardTacotronRepository(Repository):
