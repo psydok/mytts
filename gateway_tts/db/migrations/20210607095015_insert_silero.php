@@ -22,7 +22,7 @@ final class InsertSilero extends AbstractMigration
             ->insert([
                 [
                     'generator' => 'silero',
-                    'vocoder' => 'wavernn'
+                    'vocoder' => 'waveglow'
                 ]
             ])
             ->save();

@@ -165,7 +165,7 @@ export default {
         };
         event.preventDefault();
         return new Promise((resolve, reject) => {
-          axios('http://' + 'localhost:5000' + '/synth', {
+          axios('http://' + 'localhost:8060' + '/synth', {
             method: "POST",
             headers: {
               'Accept': 'application/json',

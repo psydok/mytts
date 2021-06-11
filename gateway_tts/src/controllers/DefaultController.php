@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace app\controllers;
 
-use app\models\ModelEntity;
 use app\models\RequestTTSEntity;
 use app\models\ResponseTTSEntity;
 use app\repositories\RatingRepository;
