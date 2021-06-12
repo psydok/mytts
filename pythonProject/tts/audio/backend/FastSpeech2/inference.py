@@ -5,6 +5,7 @@ import numpy as np
 from .utils.texts import valid_symbols
 from .utils.hparams import load_hparam_str, HParam
 from .utils.texts.cleaners import basic_cleaners, punctuation_removers
+from .utils.texts.cleaners import punctuations as punctuation_marks
 from tts.audio.backend.dsp import DSP
 from queue import Queue
 from russian_g2p.Transcription import Transcription
@@ -13,7 +14,7 @@ from russian_g2p.Transcription import Transcription
 def to_russian_phonemes(text):
     text = text.replace('-', '—')
     text = text.replace('…', '.')
-    punctuation_marks = ';:,.!?¡¿—…"«»“”()'
+    # punctuation_marks = ';:,.!?¡¿—–…"«»“”()'
     transcriptor = Transcription()
     phonemes = ''
     queue = Queue()

@@ -1,11 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand mytitle" href="#">TTS</a>
-<!--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"-->
-<!--            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--      <span class="navbar-toggler-icon"></span>-->
-<!--    </button>-->
-    <div class=" navbar-collapse" id="navbarNav">
+    <button class="navbar-toggler mytitle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
           <router-link
@@ -36,7 +35,9 @@
 <script>
 export default {
   name: "NavBar",
-  mounted() {
+  data () {
+    return {
+    }
   }
 }
 </script>
@@ -44,5 +45,6 @@ export default {
 <style>
 .mytitle {
   margin-left: 1rem;
+  margin-right: 1rem;
 }
 </style>

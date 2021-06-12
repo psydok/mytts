@@ -93,9 +93,10 @@ export default {
       spinner_visible: false,
       name: '',
       models_id: null,
+      vocoder: null,
       model: '',
       models: [{'generator':'demo-sovaTTS', 'id':0},
-        {'generator':'forward_tacotron', 'id':0},
+        {'generator':'forward_tacotron','vocoder':'griffinlim',  'id':0},
         {'generator':'silero', 'id':0},
         {'generator':'fast_speech2', 'id':0}
         ],

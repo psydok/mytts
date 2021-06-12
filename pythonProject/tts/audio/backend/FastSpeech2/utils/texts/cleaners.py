@@ -19,7 +19,7 @@ from unidecode import unidecode
 from .numbers import normalize_numbers
 
 _whitespace_re = re.compile(r"\s+")
-punctuations = """-—!()[]{};:'"\<>/?@#^&*_~"""
+punctuations = """-—–!()[]{};:'"\<>/?@#^&*_~"""
 
 # List of (regular expression, replacement) pairs for abbreviations:
 _abbreviations = [
