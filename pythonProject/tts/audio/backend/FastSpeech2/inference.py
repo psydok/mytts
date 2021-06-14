@@ -3,7 +3,7 @@ from .fastspeech import FeedForwardTransformer
 from .utils.texts import phonemes_to_sequence
 import numpy as np
 from .utils.texts import valid_symbols
-from .utils.hparams import load_hparam_str, HParam
+from .utils.hparams import load_hparam_str
 from .utils.texts.cleaners import basic_cleaners, punctuation_removers
 from .utils.texts.cleaners import punctuations as punctuation_marks
 from tts.audio.backend.dsp import DSP
@@ -116,7 +116,7 @@ class SynthenizerFastSpeech:
 
         self.model.load_state_dict(checkpoint["model"])
 
-    def __call__(self, text: str, voc_model='griffinlim'):
+    def __call__(self, text: str):
         para_mel = []
         text = self.process_paragraph(text)
         print(text)

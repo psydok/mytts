@@ -1,6 +1,7 @@
 <template>
   <tr>
-    <td>{{ model_data.generator }} {{ model_data.vocoder }}</td>
+    <td>{{ model_data.generator }}</td>
+	<td>{{ model_data.vocoder }}</td>
     <td>{{ $filters.round(model_data.avg_rate) }}</td>
     <td>{{ $filters.round(model_data.count_rate) }} </td>
     <td>{{ $filters.round(model_data.avg_speed) }} сек на {{ $filters.round(model_data.avg_len_text) }}</td>

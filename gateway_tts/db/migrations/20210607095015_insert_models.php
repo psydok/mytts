@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
 
-final class InsertSilero extends AbstractMigration
+final class InsertModels extends AbstractMigration
 {
     /**
      * Change Method.
@@ -23,19 +23,16 @@ final class InsertSilero extends AbstractMigration
                 [
                     'generator' => 'silero',
                     'vocoder' => 'waveglow'
+                ],
+                [
+                    'generator' => 'forward_tacotron',
+                    'vocoder' => 'hifigan'
+                ],
+                [
+                    'generator' => 'fast_speech2',
+                    'vocoder' => 'hifigan'
                 ]
             ])
-            ->save();
-
-        $this->table('rating')
-            ->insert([
-                [
-                    'models_id' => 3, //'silero'
-                    'avg_rate' => 0.0,
-                    'avg_speed' => 0.0,
-                    'avg_len_text' => 0.0,
-                    'count_rate' => 0.0,
-                ]])
             ->save();
     }
 }

@@ -15,7 +15,6 @@ class Synthesizer:
 
     def __init__(self,
                  tts_path: str,
-                 voc_path: str,
                  device='cpu'):
         self.device = torch.device(device)
         path_to_config = Path(__file__).parent.absolute().__str__() + '\\hparams.py'
@@ -72,7 +71,6 @@ class Synthesizer:
 
     def __call__(self,
                  text: str,
-                 voc_model: str,
                  alpha=1.0,
                  pitch_function: Callable[[torch.tensor], torch.tensor] = lambda x: x,
                  ) -> np.array:

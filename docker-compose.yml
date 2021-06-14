@@ -67,17 +67,7 @@
         "retries": "5"
       }
     },
-    "tts": {
-      "build": {
-        "context": "./pythonProject",
-        "dockerfile": "Dockerfile"
-      },
-      "env_file": "pythonProject/.env",
-      "restart": "always",
-      "ports": [
-          "${TTS_PORT_EXT}:${TTS_PORT_INT}"
-      ]
-    },
+    
     "frontend": {
       "build": {
         "context": "./frontend",

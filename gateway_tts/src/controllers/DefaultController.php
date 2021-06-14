@@ -46,8 +46,8 @@ class DefaultController
 
         $newResp = $this->sendOnServer($tts, $request);
 //        var_dump('response: ' . $newResp . "\n");
+        $result = json_decode($newResp);
         try {
-            $result = json_decode($newResp);
             if ($result->status_code >= 400) {
                 return $this->newResponse($response, $newResp);
             }
@@ -64,7 +64,7 @@ class DefaultController
         } catch (Exception $e) {
             var_dump('error save response: ' . $e);
         }
-        return $this->newResponse($response, $newResp);
+        return $this->newResponse($response, $result);
     }
 
     public function getMedia(Request $request, Response $response, $args)

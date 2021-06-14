@@ -24,7 +24,7 @@
                 v-for="model in this.models"
                 :key="model.id"
                 :value="model"
-                v-text="model.generator"
+                v-text="model.generator+this.split+model.vocoder"
             />
           </select>
           <div class="invalid-feedback">
@@ -92,8 +92,8 @@ export default {
     return {
       spinner_visible: false,
       name: '',
+      split: ' ',
       models_id: null,
-      vocoder: null,
       model: '',
       models: [{'generator':'demo-sovaTTS', 'id':0},
         {'generator':'forward_tacotron','vocoder':'griffinlim',  'id':0},
@@ -162,7 +162,8 @@ export default {
         const data = {
           "model": this.model.id,
           "model_name": this.model.generator,
-          "text": this.text
+          "text": this.text,
+          "vocoder_name": this.model.vocoder
         };
         event.preventDefault();
         return new Promise((resolve, reject) => {

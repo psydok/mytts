@@ -35,7 +35,7 @@ def synthesize():
     request_json = request.get_json()
     text = request_json["text"]
     model_type = request_json["model_name"]
-    vocoder_type = request_json["vocoder_name"]
+    vocoder_type = request_json.get("vocoder_name", "")
     if text == '':
         return answer('', -1, -1, -1, 422, message="Fail: Bad request. Enter text.")
     if model_type == 'demo-sovaTTS':

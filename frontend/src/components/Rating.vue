@@ -12,6 +12,7 @@
       <thead>
       <tr>
         <th scope="col">Модель</th>
+		<th scope="col">Вокодер</th>
         <th scope="col">Оценка</th>
         <th scope="col">Кол-во оценок</th>
         <th scope="col">Скорость/ символы</th>

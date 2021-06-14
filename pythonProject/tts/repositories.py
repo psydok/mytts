@@ -43,9 +43,8 @@ class ForwardTacotronRepository(Repository):
 
     def generate(self, text: str, voc_model: str):
         synthesizer = Synthesizer(tts_path=self.get_tts_path(),
-                                  voc_path='',
                                   device='cpu')
-        mel = synthesizer(text, voc_model=voc_model, alpha=0.9)
+        mel = synthesizer(text, alpha=0.9)
         wav_name = self.get_audio(mel, voc_model, synthesizer.dsp)
 
         return wav_name
@@ -59,7 +58,7 @@ class FastSpeech2Repository(Repository):
 
     def generate(self, text: str, voc_model: str):
         synthesizer = SynthenizerFastSpeech()
-        mel = synthesizer(text, voc_model=voc_model)
+        mel = synthesizer(text)
         wav_name = self.get_audio(mel, voc_model, synthesizer.dsp)
         return wav_name
 
