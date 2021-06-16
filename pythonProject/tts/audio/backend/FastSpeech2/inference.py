@@ -9,12 +9,11 @@ from tts.audio.backend.dsp import DSP
 
 
 class SynthenizerFastSpeech:
-    def __init__(self):
+    def __init__(self, tts_path):
         """Run deocding."""
 
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        checkpoint_path = 'tts/audio/backend/data/fastspeech2_72k_steps.pyt'
-        checkpoint = torch.load(checkpoint_path, map_location=device)
+        checkpoint = torch.load(tts_path, map_location=device)
 
         self.hp = load_hparam_str(checkpoint["hp_str"])
         self.hp.train.ngpu = 0

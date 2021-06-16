@@ -57,7 +57,7 @@ class FastSpeech2Repository(Repository):
         return 'fast_speech2'
 
     def generate(self, text: str, voc_model: str):
-        synthesizer = SynthenizerFastSpeech()
+        synthesizer = SynthenizerFastSpeech(self.get_tts_path())
         mel = synthesizer(text)
         wav_name = self.get_audio(mel, voc_model, synthesizer.dsp)
         return wav_name

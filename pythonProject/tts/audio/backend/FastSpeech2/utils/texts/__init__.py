@@ -103,15 +103,15 @@ def phonemes_to_sequence(phonemes):
     # string.append(EOS)
     # sequence = list(map(convert_phoneme_CMU, string))
     try:
-        sequence = []
-        for s in string:
-            if s in _phoneme_to_id:
-                sequence.append(_phoneme_to_id[s])
-            else:
-                for i in s:
-                    if i in _phoneme_to_id:
-                        sequence.append(_phoneme_to_id[i])
-        # sequence = [_phoneme_to_id[s] for s in string if s in _phoneme_to_id]
+        # sequence = []
+        # for s in string:
+        #     if s in _phoneme_to_id:
+        #         sequence.append(_phoneme_to_id[s])
+        #     else:
+        #         for i in s:
+        #             if i in _phoneme_to_id:
+        #                 sequence.append(_phoneme_to_id[i])
+        sequence = [_phoneme_to_id[s] for s in string if s in _phoneme_to_id]
     except Exception as e:
         print(string)
         raise e

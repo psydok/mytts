@@ -12,14 +12,14 @@ hyperparameter. Some cleaners are English-specific. You'll typically want to use
      the symbols in symbols.py to match your data).
 """
 
-
 # Regular expression matching whitespace:
 import re
 from unidecode import unidecode
 from .numbers import normalize_numbers
 
 _whitespace_re = re.compile(r"\s+")
-punctuations = """-—–!()[]{};:'"\<>/?@#^&*_~"""
+punctuations = """.,?!();:"'"""
+punctuations_delete = """[]{}-—–\<>/@#^&*_~"""
 
 # List of (regular expression, replacement) pairs for abbreviations:
 _abbreviations = [
@@ -95,8 +95,12 @@ def english_cleaners(text):
 
 
 def punctuation_removers(text):
+    punc = " pau "
     no_punct = ""
     for char in text:
-        if char not in punctuations:
-            no_punct = no_punct + char
-    return no_punct
+        if char in punctuations:
+            no_punct += punc
+            continue
+        if char not in punctuations_delete:
+            no_punct += char
+    return collapse_whitespace(no_punct)
