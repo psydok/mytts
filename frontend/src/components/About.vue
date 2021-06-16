@@ -15,7 +15,7 @@
           <ul>
             <li>ForwardTacotron + <a href="https://github.com/nsu-ai/russian_g2p">russian_g2p</a></li>
             <li>FastSpeech2 + <a href="https://github.com/nsu-ai/russian_g2p">russian_g2p</a></li>
-            <li>Silero (Tacotron2 + потоковый вокодер WaveGlow)</li>
+            <li>Silero (Tacotron2 + вокодер HifiGAN)</li>
           </ul>
         </li>
       </ul>

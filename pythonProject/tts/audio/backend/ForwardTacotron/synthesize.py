@@ -3,11 +3,9 @@ import numpy as np
 from typing import Callable
 from .models.forward_tacotron import ForwardTacotron
 from tts.audio.backend.dsp import DSP
-from .utils.text.cleaners import Cleaner
 from .utils.text import text_to_sequence
 from .utils import hparams as hp
 from .utils.text.symbols import phonemes
-from datetime import datetime
 from pathlib import Path
 
 
@@ -43,7 +41,7 @@ class Synthesizer:
         # self.wavernn = WaveRNN.from_checkpoint(voc_path)
         # self.melgan = torch.hub.load('seungwonpark/melgan', 'melgan')
         # self.melgan.to(device).eval()
-        self.cleaner = Cleaner.from_config(hp)
+        # self.cleaner = Cleaner.from_config(hp)
         self.dsp = DSP(hp.num_mels,
                        hp.sample_rate,
                        hp.hop_length,
@@ -74,7 +72,8 @@ class Synthesizer:
                  alpha=1.0,
                  pitch_function: Callable[[torch.tensor], torch.tensor] = lambda x: x,
                  ) -> np.array:
-        x = self.cleaner(text)
+        x = text # phonemes
+        # x = self.cleaner(text)
         x = text_to_sequence(x)
         x = torch.tensor(x).unsqueeze(0)
         _, gen, _, _ = self.tts_model.generate(x,

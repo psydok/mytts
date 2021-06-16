@@ -124,5 +124,6 @@ class ProcessedText(object):
                         text = text.replace(word, chunks[1])
                         accenting_list.remove(chunks)
                     break
-
-        return text
+        if text != "":
+            self._text = text
+        return self._text

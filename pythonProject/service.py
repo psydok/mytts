@@ -29,24 +29,20 @@ class SpeechSynthesisService(object):
     def repository(self, repository: str):
         self._repository = self._check_exists_repository(repository)
 
-    def generate(self, text, vocoder='griffinlim') -> Dict[str, str]:
-        if vocoder == "":
-            vocoder = 'griffinlim'
+    def generate(self, text, vocoder) -> Dict[str, str]:
         use_accent = True
         if '+' in text:
             use_accent = False
         processed_text = ProcessedText(text, use_accent)
         norm_text = processed_text.process_text()
         print(norm_text)
-        len_text = 0
+        phonemes = processed_text.to_russian_phonemes()
+        print(phonemes)
+        len_text = len(norm_text)
         start = time.time()
-        if norm_text != "":
-            len_text = len(norm_text)
-            wav_name = self._repository.generate(norm_text, vocoder)
-        else:
-            len_text = len(text)
-            wav_name = self._repository.generate(text, vocoder)
+        wav_name = self._repository.generate(phonemes, vocoder)
         end = time.time()
+
         return {
             "wav_name": wav_name,
             "speed_synthesis": round(end - start, 5),

@@ -22,7 +22,7 @@ final class InsertModels extends AbstractMigration
             ->insert([
                 [
                     'generator' => 'silero',
-                    'vocoder' => 'waveglow'
+                    'vocoder' => 'hifigan'
                 ],
                 [
                     'generator' => 'forward_tacotron',

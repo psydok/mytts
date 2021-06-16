@@ -6,7 +6,7 @@ from base64 import b64encode
 from utils.files import out_path
 
 
-def answer(audio_bytes, filename, speed, len_text, status, message="success"):
+def answer(status, message, audio_bytes: [], filename="", speed="-1", len_text="-1"):
     if str(status).startswith("2"):
         return jsonify(
             status_code=status,
@@ -32,14 +32,15 @@ def read_bytes(filename):
 @app.route('/synth', methods=['POST'])
 @cross_origin()
 def synthesize():
+    success = "success"
     request_json = request.get_json()
-    text = request_json["text"]
-    model_type = request_json["model_name"]
-    vocoder_type = request_json.get("vocoder_name", "")
-    if text == '':
-        return answer('', -1, -1, -1, 422, message="Fail: Bad request. Enter text.")
-    if model_type == 'demo-sovaTTS':
-        return answer(read_bytes('test_ruslan.wav'), 'test_ruslan.wav', 0, 0, 200)
+    text = request_json.get("text", "")
+    model_type = request_json.get("model_name", "forward_tacotron")
+    vocoder_type = request_json.get("vocoder_name", "hifigan")
+    if text == "":
+        return answer(422, "fail: Bad request. Enter text.", [])
+    # if model_type == 'demo-sovaTTS':
+    #     return answer(200, success, read_bytes('test_ruslan.wav'), 'test_ruslan.wav', "0", "0")
     try:
         service = SpeechSynthesisService(model_type)
     except ValueError as e:
@@ -47,12 +48,12 @@ def synthesize():
     try:
         response_service = service.generate(text, vocoder=vocoder_type)
     except Exception as e:
-        return answer(-1, '', -1, -1, 500, message="Fail: {0}".format(e))
-    print(model_type)
-    return answer(read_bytes(response_service['wav_name']),
+        return answer(500, "fail: {0}".format(e), -1, '', "-1", "-1")
+
+    return answer(200, success, read_bytes(response_service['wav_name']),
                   response_service['wav_name'],
                   response_service['speed_synthesis'],
-                  response_service['len_text'], 200)
+                  response_service['len_text'])
 
 
 if __name__ == '__main__':

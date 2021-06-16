@@ -106,7 +106,6 @@ def phonemes_to_sequence(phonemes):
         sequence = []
         for s in string:
             if s in _phoneme_to_id:
-                print(s)
                 sequence.append(_phoneme_to_id[s])
             else:
                 for i in s:
