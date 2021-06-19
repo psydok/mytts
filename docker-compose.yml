@@ -67,7 +67,17 @@
         "retries": "5"
       }
     },
-    
+    "tts": {
+      "build": {
+        "context": "./t2s",
+        "dockerfile": "Dockerfile"
+      },
+      "env_file": "t2s/.env",
+      "restart": "always",
+      "ports": [
+          "${TTS_PORT_EXT}:${TTS_PORT_INT}"
+      ]
+    },
     "frontend": {
       "build": {
         "context": "./frontend",

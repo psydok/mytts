@@ -28,6 +28,13 @@ class DefaultController
     public function synth(Request $request, Response $response, $args)
     {
         $tts = getenv('TTS_SERVER');
+        if (!$this->isSiteAvailible($tts)) {
+            return $this->newResponse($response,
+                [
+                    "status_code" => 503,
+                    "message" => "sorry, server is not available"
+                ], 503);
+        }
         $requests_id = -1;
         $data = $request->getParsedBody();
         try {
@@ -70,6 +77,13 @@ class DefaultController
     public function getMedia(Request $request, Response $response, $args)
     {
         $tts = getenv('TTS_SERVER');
+        if (!$this->isSiteAvailible($tts)) {
+            return $this->newResponse($response,
+                [
+                    "status_code" => 503,
+                    "message" => "sorry, server is not available"
+                ], 503);
+        }
         $newResp = $this->sendOnServer($tts, $request);
         return $newResp;
     }
@@ -100,12 +114,12 @@ class DefaultController
         return $this->newResponse($response, $result);
     }
 
-    private function newResponse($response, $bodyArr)
+    private function newResponse($response, $bodyArr, $status_code = 200)
     {
         $newResponse = $response
             ->withHeader('Content-Type', 'application/json');
         $newResponse->getBody()->write(json_encode($bodyArr));
-        return $newResponse->withStatus(200);
+        return $newResponse->withStatus($status_code);
     }
 
     /**
@@ -155,5 +169,23 @@ class DefaultController
         $response = curl_exec($curl);
         curl_close($curl);
         return $response;
+    }
+
+    function isSiteAvailible($url)
+    {
+        // Проверка правильности URL
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            return false;
+        }
+
+        $curlInit = curl_init($url);
+        curl_setopt($curlInit, CURLOPT_CONNECTTIMEOUT, 20);
+        curl_setopt($curlInit, CURLOPT_HEADER, true);
+        curl_setopt($curlInit, CURLOPT_NOBODY, true);
+        curl_setopt($curlInit, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curlInit);
+        curl_close($curlInit);
+
+        return $response ? true : false;
     }
 }

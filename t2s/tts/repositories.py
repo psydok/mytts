@@ -7,6 +7,7 @@ from .audio.backend.ForwardTacotron.synthesize import Synthesizer
 from .audio.backend.FastSpeech2.inference import SynthenizerFastSpeech
 from .audio.backend.silero.synthesize import generator
 from utils.files import out_path
+from typing import Dict
 
 
 class Repository(ABC):
@@ -20,7 +21,7 @@ class Repository(ABC):
         return path + saved_models['synthesizers'][self.name_model]
 
     @abstractmethod
-    def generate(self, text: str, voc_model: str):
+    def generate(self, inputs: Dict[str, str], voc_model: str):
         pass
 
     def get_audio(self, mel, voc_model, dsp: DSP, sample_rate=22050):
@@ -41,10 +42,10 @@ class ForwardTacotronRepository(Repository):
     def name_model(self):
         return 'forward_tacotron'
 
-    def generate(self, text: str, voc_model: str):
+    def generate(self, inputs: Dict[str, str], voc_model: str):
         synthesizer = Synthesizer(tts_path=self.get_tts_path(),
                                   device='cpu')
-        mel = synthesizer(text, alpha=0.9)
+        mel = synthesizer(inputs["phonemes"], alpha=0.9)
         wav_name = self.get_audio(mel, voc_model, synthesizer.dsp)
 
         return wav_name
@@ -56,9 +57,9 @@ class FastSpeech2Repository(Repository):
     def name_model(self):
         return 'fast_speech2'
 
-    def generate(self, text: str, voc_model: str):
+    def generate(self, inputs: Dict[str, str], voc_model: str):
         synthesizer = SynthenizerFastSpeech(self.get_tts_path())
-        mel = synthesizer(text)
+        mel = synthesizer(inputs["phonemes"])
         wav_name = self.get_audio(mel, voc_model, synthesizer.dsp)
         return wav_name
 
@@ -73,9 +74,9 @@ class SileroRepository(Repository):
     def name_model(self):
         return 'silero'
 
-    def generate(self, text: str, voc_model: str):
+    def generate(self, inputs: Dict[str, str], voc_model: str):
         text_new_accent = ""
-        for ch in text:
+        for ch in inputs["text"]:
             if ch == "+":
                 text_new_accent = text_new_accent[:-1] + "+" + text_new_accent[-1:]
                 continue

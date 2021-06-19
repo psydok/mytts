@@ -37,7 +37,6 @@
           <button class="btn btn-primary"
                   type="button"
                   v-if="text"
-                  :disabled="!!spinner_visible"
                   v-on:click="onSubmit" @click="onReset"
           >Синтезировать
           </button>
@@ -95,11 +94,11 @@ export default {
       split: ' ',
       models_id: null,
       model: '',
-      models: [{'generator':'demo-sovaTTS', 'id':0},
-        {'generator':'forward_tacotron','vocoder':'griffinlim',  'id':0},
-        {'generator':'silero', 'id':0},
-        {'generator':'fast_speech2', 'id':0}
-        ],
+      models: [{'generator': 'demo-sovaTTS', 'id': 0},
+        {'generator': 'forward_tacotron', 'vocoder': 'griffinlim', 'id': 0},
+        {'generator': 'silero', 'id': 0},
+        {'generator': 'fast_speech2', 'id': 0}
+      ],
       show_response: false,
       response: null,
       error: '',
@@ -109,8 +108,8 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(function () {// window.location.host'localhost:8060'
-      return axios('http://' + 'localhost:8060' + '/api/models', {
+    this.$nextTick(function () {// 'localhost:8060'
+      return axios('http://' + window.location.host + '/api/models', {
         method: "GET",
         headers: {
           "Accept": "application/json",
@@ -128,14 +127,14 @@ export default {
     onSubmitRating(event) {
       event.preventDefault();
 
-      if (!this.rating) return ;
+      if (!this.rating) return;
       const data = {
         "filename": this.filename,
         "rate": this.rating
       };
       console.log(data);
       return new Promise((resolve, reject) => {
-        axios('http://' +'localhost:8060' + '/api/rating', {
+        axios('http://' + window.location.host + '/api/rating', {
           method: "PUT",
           headers: {
             'Accept': 'application/json',
@@ -144,7 +143,7 @@ export default {
           data: JSON.stringify(data)
         })
             .then((response) => {
-              this.is_rate=true;
+              this.is_rate = true;
               console.log(response.data);
               resolve();
             })
@@ -167,32 +166,36 @@ export default {
         };
         event.preventDefault();
         return new Promise((resolve, reject) => {
-          axios('http://' + 'localhost:8060' + '/synth', {
+          axios('http://' + window.location.host + '/synth', {
             method: "POST",
             headers: {
               'Accept': 'application/json',
               "Content-Type": "application/json",
             },
             data: JSON.stringify(data)
+
           })
               .then((response) => {
                 this.show_response = true;
-                this.is_rate=false;
-                response=response.data;//JSON.parse(
+                this.is_rate = false;
+                response = response.data; // JSON.parse(
                 console.log(response);
+                if (response.status_code >= 400) {
+                  this.error = response.message;
+                  resolve();
+                }
                 this.filename = response.filename;
-                // this.response = 'http://' + 'localhost:8060' + '/static/wavs/' + this.filename;
                 this.spinner_visible = false;
                 var q = new Buffer.from(response.audio_bytes, 'base64');
 
                 const blob = new Blob(
                     [new Uint8Array(q)],
-                    { type: 'audio/wav' });
+                    {type: 'audio/wav'});
                 const url = URL.createObjectURL(blob);
                 this.response = url;
                 const audio = document.getElementById('audio-player');
                 audio.load();
-                    resolve();
+                resolve();
               })
               .catch((error) => {
                 console.log(error);
@@ -203,7 +206,6 @@ export default {
               });
         });
       }
-
     },
     onReset(event) {
       event.preventDefault();

@@ -20,7 +20,7 @@ final class CreateTableRequestsResponse extends AbstractMigration
     {
         $this->table('requests')
             ->addColumn('models_id', 'integer')
-            ->addColumn('text', 'string')
+            ->addColumn('text', 'string', ['limit' => 2000])
             ->addColumn('created', 'timestamp',
                 ['default' => 'CURRENT_TIMESTAMP'])
             ->addForeignKey('models_id', 'models', 'id',

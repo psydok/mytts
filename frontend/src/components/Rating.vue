@@ -45,7 +45,7 @@ export default {
   },
   mounted() {
     this.$nextTick(function () {//window.location.host'localhost:8060'
-      return axios('http://' + 'localhost:8060' + '/api/rating', {
+      return axios('http://' + window.location.host + '/api/rating', {
         method: "GET",
         headers: {
           "Accept": "application/json",
@@ -62,6 +62,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

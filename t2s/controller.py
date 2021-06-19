@@ -48,7 +48,7 @@ def synthesize():
     try:
         response_service = service.generate(text, vocoder=vocoder_type)
     except Exception as e:
-        return answer(500, "fail: {0}".format(e), -1, '', "-1", "-1")
+        return answer(500, "fail: {0}".format(e), [])
 
     return answer(200, success, read_bytes(response_service['wav_name']),
                   response_service['wav_name'],
@@ -56,5 +56,12 @@ def synthesize():
                   response_service['len_text'])
 
 
+@app.route('/', methods=['GET'])
+@cross_origin()
+def ping():
+    http_code = 200
+    return make_response(jsonify(status_code=http_code, message="success"), http_code)
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

@@ -40,7 +40,7 @@ class SpeechSynthesisService(object):
         print(phonemes)
         len_text = len(norm_text)
         start = time.time()
-        wav_name = self._repository.generate(phonemes, vocoder)
+        wav_name = self._repository.generate({"phonemes": phonemes, "text": text}, vocoder)
         end = time.time()
 
         return {

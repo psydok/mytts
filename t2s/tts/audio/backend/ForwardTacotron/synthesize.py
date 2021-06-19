@@ -15,7 +15,7 @@ class Synthesizer:
                  tts_path: str,
                  device='cpu'):
         self.device = torch.device(device)
-        path_to_config = Path(__file__).parent.absolute().__str__() + '\\hparams.py'
+        path_to_config = Path(__file__).parent.absolute().__str__() + '/hparams.py'
         hp.configure(path_to_config)
         tts_model = ForwardTacotron(embed_dims=hp.forward_embed_dims,
                                     num_chars=len(phonemes),
