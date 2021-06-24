@@ -3,6 +3,7 @@ import time
 from tts.models import saved_models
 from tts.repositories import ForwardTacotronRepository, FastSpeech2Repository, SileroRepository
 from tts.text import ProcessedText
+import re
 
 
 class SpeechSynthesisService(object):
@@ -30,15 +31,20 @@ class SpeechSynthesisService(object):
         self._repository = self._check_exists_repository(repository)
 
     def generate(self, text, vocoder) -> Dict[str, str]:
+        # убираем лишние ударения перед гласными, если есть
+        text = re.sub(r'(?i)(([^аеёиоуыэюя\s])\++)', r'\2', text)
+        # проверяем наличие расставленных ударений
         use_accent = True
-        if '+' in text:
+        if re.findall(r'(?i)([аеёиоуыэюя])\+', text):
             use_accent = False
+
         processed_text = ProcessedText(text, use_accent)
         norm_text = processed_text.process_text()
         print(norm_text)
         phonemes = processed_text.to_russian_phonemes()
         print(phonemes)
         len_text = len(norm_text)
+
         start = time.time()
         wav_name = self._repository.generate({"phonemes": phonemes, "text": text}, vocoder)
         end = time.time()
@@ -48,11 +54,3 @@ class SpeechSynthesisService(object):
             "speed_synthesis": round(end - start, 5),
             "len_text": len_text
         }
-
-    # def wav_to_bytes(self, path):
-    #     with open("static/wavs/test.wav", "rb") as wavfile:
-    #         input_wav = wavfile.read()
-    #     rate, data = read(io.BytesIO(input_wav))
-    #     reversed_data = data[::-1]  # reversing it
-    #
-    #     return reversed_data

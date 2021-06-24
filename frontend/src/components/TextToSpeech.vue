@@ -15,6 +15,7 @@
           <div class="valid-feedback">
             Отлично!
           </div>
+          Для передачи слов-омографов, используйте «+» после ударной гласной: за+мок, замо+к.
         </div>
         <div class="col-md-3">
           <label for="validationCustom04" class="form-label">Синтезатор</label>
@@ -32,7 +33,6 @@
           </div>
 
         </div>
-        Для передачи слов-омографов, используйте «+» после ударной гласной: за+мок, замо+к.
         <div class="col-12">
           <button class="btn btn-primary"
                   type="button"

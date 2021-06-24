@@ -7,10 +7,10 @@ use ValueError;
 
 class ResponseTTSEntity implements JsonSerializable
 {
-    private $requests_id;
+    private $requestsId;
     private $filename;
     private $speed;
-    private $len_text;
+    private $lenText;
     private $rate;
     private $method;
 
@@ -24,15 +24,15 @@ class ResponseTTSEntity implements JsonSerializable
      */
     public function getRequestsId()
     {
-        return $this->requests_id;
+        return $this->requestsId;
     }
 
     /**
-     * @param mixed $requests_id
+     * @param mixed $requestsId
      */
-    public function setRequestsId($requests_id)
+    public function setRequestsId($requestsId)
     {
-        $this->requests_id = $requests_id;
+        $this->requestsId = $requestsId;
     }
 
     /**
@@ -72,15 +72,15 @@ class ResponseTTSEntity implements JsonSerializable
      */
     public function getLenText()
     {
-        return $this->len_text;
+        return $this->lenText;
     }
 
     /**
-     * @param mixed $len_text
+     * @param mixed $lenText
      */
-    public function setLenText($len_text)
+    public function setLenText($lenText)
     {
-        $this->len_text = $len_text;
+        $this->lenText = $lenText;
     }
 
     /**
@@ -118,10 +118,10 @@ class ResponseTTSEntity implements JsonSerializable
             'method' => $this->method,
             'table' => 'responses',
             'rate' => $this->rate,
-            'len_text' => $this->len_text,
+            'len_text' => $this->lenText,
             'speed' => $this->speed,
             'filename' => $this->filename,
-            'requests_id' => $this->requests_id
+            'requests_id' => $this->requestsId
         ];
     }
 }

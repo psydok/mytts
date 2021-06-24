@@ -8,8 +8,6 @@ import webrtcvad
 import soundfile as sf
 from scipy.ndimage import binary_dilation
 
-from demon_clean_wav import deamon_clean_wavs
-
 
 class DSP:
 
@@ -68,7 +66,6 @@ class DSP:
 
     @staticmethod
     def save_wav(wav: np.array, path: Union[str, Path], sample_rate=22050) -> None:
-        deamon_clean_wavs()
         wav = wav.astype(np.float32)
         sf.write(path, wav, samplerate=sample_rate)
 

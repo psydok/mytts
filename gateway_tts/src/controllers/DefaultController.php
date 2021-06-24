@@ -114,12 +114,12 @@ class DefaultController
         return $this->newResponse($response, $result);
     }
 
-    private function newResponse($response, $bodyArr, $status_code = 200)
+    private function newResponse($response, $bodyArr, $statusCode = 200)
     {
         $newResponse = $response
             ->withHeader('Content-Type', 'application/json');
         $newResponse->getBody()->write(json_encode($bodyArr));
-        return $newResponse->withStatus($status_code);
+        return $newResponse->withStatus($statusCode);
     }
 
     /**

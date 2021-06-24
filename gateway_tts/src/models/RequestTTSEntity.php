@@ -7,7 +7,7 @@ use ValueError;
 
 class RequestTTSEntity implements JsonSerializable
 {
-    private $models_id;
+    private $modelsId;
     private $text;
     private $method;
 
@@ -15,7 +15,7 @@ class RequestTTSEntity implements JsonSerializable
 
     public function __construct(int $model, string $text)
     {
-        $this->models_id = $model;
+        $this->modelsId = $model;
         $this->text = $text;
     }
 
@@ -24,7 +24,7 @@ class RequestTTSEntity implements JsonSerializable
      */
     public function getModelsId(): int
     {
-        return $this->models_id;
+        return $this->modelsId;
     }
 
     /**
@@ -59,7 +59,7 @@ class RequestTTSEntity implements JsonSerializable
             'method' => $this->method,
             'table' => 'requests',
             'text' => $this->text,
-            'models_id' => $this->models_id
+            'models_id' => $this->modelsId
         ];
     }
 }

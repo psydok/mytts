@@ -4,6 +4,20 @@ from russian_g2p.Accentor import Accentor
 from collections import deque
 import re
 
+_abbreviations = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
+    ('mp3', 'м.п три'),
+    ('гум', 'гум'),
+    ('цска', 'ц.с.ка'),
+    ('гибдд', 'ги.б.д.д'),
+    ('исполком', 'испол.ком'),
+    ('завлаб', 'зав.лаб'),
+    ('интерсвязь', 'и+нтер свя+зь'),
+    ('жкх', 'ж.к.ха'),
+    ('интерсвязь', 'и+нтер свя+зь'),
+    ('урфо', 'ур.фо'),
+    ('рф', 'р.ф.')
+]]
+
 
 class ProcessedText(object):
     def __init__(self, text: str, use_accent=False):
@@ -13,6 +27,7 @@ class ProcessedText(object):
         self._text = text
 
     def to_russian_phonemes(self):
+        """Получить транскрипцию"""
         text = self._text
         text = text.replace('-', '—')
         text = text.replace('…', '.')
@@ -37,6 +52,9 @@ class ProcessedText(object):
 
     @staticmethod
     def preprocessing_abbreviations(text: str) -> str:
+        """Обработка аббревиатур"""
+        for regex, replacement in _abbreviations:
+            text = re.sub(regex, replacement, text)
         preprocessing_text = []
         for word in text.split():
             if word.isupper() and '.' not in word:
@@ -52,12 +70,14 @@ class ProcessedText(object):
 
     @staticmethod
     def replace(text, replaceable_chars, new_char):
+        """Вспомогательный метод замены нескольких символов на один"""
         for punctuation in replaceable_chars:
             text = text.replace(punctuation, new_char)
         return text
 
     @staticmethod
     def accenting(text: str) -> str:
+        """Расстановка ударений"""
         text = ProcessedText.replace(text, ['«', '»', '“', '”', '”', ], '"')
         text = ProcessedText.replace(text, ['(', '[', ')', ']'], '.')
         punctuations = {';', ':', ',', '.', '!', '?', '¡', '¿', '—', '"'}
@@ -104,6 +124,7 @@ class ProcessedText(object):
         return self._text
 
     def process_text(self) -> str:
+        """Предобработка текста"""
         text = self._text.lower()
         clean_text = re.sub(r"(?i)([а-яё])\+", r'\1', text)
         clean_text = re.sub(r'(?=\w\=)(?P<word>\w)\=|\s(\=)\s', self._replace_on_word, clean_text)
