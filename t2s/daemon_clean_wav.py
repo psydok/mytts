@@ -122,7 +122,7 @@ def daemon_clean_wavs():
     deleted_folders_count = 0
     deleted_files_count = 0
 
-    DIR = "static/wavs"
+    DIR = "/mytts/static/wavs"
     count_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
     print(count_files)
     if count_files > 20:
@@ -156,12 +156,12 @@ def get_file_age(path):
 class MyDaemon(Daemon):
         def run(self):
                 while True:
-                        time.sleep(520)
                         daemon_clean_wavs()
+                        time.sleep(520)
 
 
 if __name__ == "__main__":
-    daemon = MyDaemon('/tmp/daemon-example.pid')
+    daemon = MyDaemon('/tmp/daemon-clean-wav.pid')
     if len(sys.argv) == 2:
         if 'start' == sys.argv[1]:
                 daemon.start()

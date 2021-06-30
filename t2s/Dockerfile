@@ -26,5 +26,5 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-CMD python3 daemon_clean_wav.py start
-CMD gunicorn --access-logfile - -w 4 --bind 0.0.0.0:5000 controller:app --timeout 15000
+CMD python3 daemon_clean_wav.py start \
+	& gunicorn --access-logfile - -w 2 --threads 30 --bind 0.0.0.0:5000 controller:app --timeout 15000

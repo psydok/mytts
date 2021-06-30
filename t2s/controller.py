@@ -32,11 +32,11 @@ def read_bytes(filename):
 @app.route('/synth', methods=['POST'])
 @cross_origin()
 def synthesize():
-    success = "success"
     request_json = request.get_json()
     text = request_json.get("text", "")
     model_type = request_json.get("model_name", "forward_tacotron")
     vocoder_type = request_json.get("vocoder_name", "hifigan")
+    success = "success"
     if text == "":
         return answer(422, "fail: Bad request. Enter text.", [])
     # if model_type == 'demo-sovaTTS':

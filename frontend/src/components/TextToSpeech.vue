@@ -36,7 +36,7 @@
         <div class="col-12">
           <button class="btn btn-primary"
                   type="button"
-                  v-if="text"
+                  v-if="showBtn"
                   v-on:click="onSubmit" @click="onReset"
           >Синтезировать
           </button>
@@ -93,7 +93,7 @@ export default {
       name: '',
       split: ' ',
       models_id: null,
-      model: '',
+      model: null,
       models: [{'generator': 'demo-sovaTTS', 'id': 0},
         {'generator': 'forward_tacotron', 'vocoder': 'griffinlim', 'id': 0},
         {'generator': 'silero', 'id': 0},
@@ -106,6 +106,11 @@ export default {
       rating: 0,
       filename: ''
     }
+  },
+  computed: {
+	showBtn () {
+		return (this.text != '' && this.model != null);
+	}
   },
   mounted() {
     this.$nextTick(function () {// 'localhost:8060'
@@ -180,10 +185,20 @@ export default {
                 this.is_rate = false;
                 response = response.data; // JSON.parse(
                 console.log(response);
-                if (response.status_code >= 400) {
-                  this.error = response.message;
-                  resolve();
-                }
+				try {
+				
+				if (response.status_code >= 400) {
+				  this.error = response.message;
+				  resolve();
+				}
+				} catch (e) {
+				console.log("catch");
+				response=JSON.parse(response)
+				if (response.status_code >= 400) {
+				  this.error = response.message;
+				  resolve();
+				}
+				}
                 this.filename = response.filename;
                 this.spinner_visible = false;
                 var q = new Buffer.from(response.audio_bytes, 'base64');
@@ -199,9 +214,22 @@ export default {
               })
               .catch((error) => {
                 console.log(error);
+				this.spinner_visible = false;
+				try {
+				if (error.status_code >= 400) {
+				this.error = error.message;
+				reject(error);
+				}
+				} catch (e) {
+				console.log("catch");
+				response=JSON.parse(error)
+				if (error.status_code >= 400) {
+				this.error = error.message;
+				reject(error);
+				}
+				}
                 this.error = error;
-                this.spinner_visible = false;
-                reject(error)
+                reject(error);
 
               });
         });
